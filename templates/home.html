@@ -1,33 +1,107 @@
-{{foo}}
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>KnockKnock</title>
+        <style type="text/css">
+        * {
+            box-sizing: border-box;
+        }
 
-<h1>Oh hi, {{username}}.</h1>
-<h2>(from {{ip}})</h2>
+        html,
+        body {
+            background: #eaeaea;
+            color: #444;
+            font-family: Helvetica, Arial, sans-serif;
+        }
 
-{%if ec2_groups%}
-<h3>EC2 Groups</h3>
-<table border=1>
-    <thead>
-        <tr>
-            <td>id</td>
-            <td>name</td>
-            <td colspan="{{max_ec2_groups}}">ports</td>
-        </tr>
-    </thead>
-    {%for group in ec2_groups%}
-    <tr>
-        <td>{{group['id']}}</td>
-        <td>{{group['name']}}</td>
-        {%for port in group['all_ports']%}
-            <td>
-                <form method="post" action="/change">
-                    <input type="hidden" name="group_id" value="{{group['id']}}" />
-                    <input type="hidden" name="port" value="{{port}}" />
-                    <input onchange="this.form.submit();" name="grant" type="checkbox"{%if port in group.grant_ports%}checked="checked"{%endif%} />
-                    {{port}}
-                </form>
-            </td>
-        {%endfor%}
-    </tr>
-    {%endfor%}
-</table>
-{%endif%}
+        h1 {
+            line-height: 35px;
+            margin: 0 0 40px;
+        }
+
+        .container {
+            background: #fff;
+            border-bottom: 1px solid #ccc;
+            border-top: 1px solid #ccc;
+            left: 50%;
+            margin-left: -320px;
+            padding: 40px 20px;
+            position: absolute;
+            top: 15%;
+            width: 640px;
+        }
+
+        table {
+            border-collapse: collapse;
+            margin: 20px 0;
+            width: 100%;
+        }
+
+        th {
+            font-weight: bold;
+        }
+
+        th,
+        td {
+            border-bottom: 1px solid #eee;
+            font-size: 18px;
+            line-height: 20px;
+            padding: 10px;
+            text-align: left;
+        }
+
+        thead > tr {
+            background: #eee;
+        }
+
+        tr:nth-child(even) {
+            background: #eee;
+        }
+
+        .highlight {
+            background: #3fc026;
+            color: #fff;
+            display: inline-block;
+            padding: 5px;
+            vertical-align: middle;
+        }
+        </style>
+    </head>
+    <body>
+        <section class="container">
+            {{foo}}
+
+            <h1>Oh hi, {{username}}. <span class="highlight">{{ip}}</span></h1>
+
+            {%if ec2_groups%}
+                <h2>EC2 Groups</h2>
+
+                <table>
+                    <thead>
+                        <tr>
+                            <th>id</th>
+                            <th>name</th>
+                            <th colspan="{{max_ec2_groups}}">ports</th>
+                        </tr>
+                    </thead>
+                    {%for group in ec2_groups%}
+                    <tr>
+                        <td>{{group['id']}}</td>
+                        <td>{{group['name']}}</td>
+                        {%for port in group['all_ports']%}
+                            <td>
+                                <form method="post" action="/change">
+                                    <input type="hidden" name="group_id" value="{{group['id']}}" />
+                                    <input type="hidden" name="port" value="{{port}}" />
+                                    <input onchange="this.form.submit();" name="grant" type="checkbox"{%if port in group.grant_ports%}checked="checked"{%endif%} />
+                                    {{port}}
+                                </form>
+                            </td>
+                        {%endfor%}
+                    </tr>
+                    {%endfor%}
+                </table>
+            {%endif%}
+        </section>
+    </body>
+</html>
