@@ -1,0 +1,46 @@
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Sid": "Stmtknockknock1",
+      "Effect": "Allow",
+      "Action": [
+        "iam:GetUser"
+      ],
+      "Resource": [
+        "arn:aws:iam::{ACCOUNTID}:user/{IAMUSERNAME}"
+      ]
+    },
+    {
+      "Sid": "Stmtknockknock2",
+      "Effect": "Allow",
+      "Action": [
+        "iam:ListAccountAliases"
+      ],
+      "Resource": [
+        "*"
+      ]
+    },
+    {
+      "Sid": "Stmtknockknock3",
+      "Effect": "Allow",
+      "Action": [
+        "ec2:AuthorizeSecurityGroupIngress",
+        "ec2:RevokeSecurityGroupIngress"
+      ],
+      "Resource": [
+        "arn:aws:ec2:*:{ACCOUNTID}:security-group/*"
+      ]
+    },
+    {
+      "Sid": "Stmtknockknock4",
+      "Effect": "Allow",
+      "Action": [
+        "ec2:DescribeSecurityGroups"
+      ],
+      "Resource": [
+        "*"
+      ]
+    }
+  ]
+}

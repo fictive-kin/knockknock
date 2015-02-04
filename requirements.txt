@@ -1,0 +1,15 @@
+Flask==0.10.1
+Jinja2==2.7.3
+MarkupSafe==0.23
+Werkzeug==0.10
+boto==2.36.0
+cffi==0.8.6
+cryptography==0.7.2
+enum34==1.0.4
+itsdangerous==0.24
+pyOpenSSL==0.14
+pyasn1==0.1.7
+pycparser==2.10
+requests==2.5.1
+six==1.9.0
+wsgiref==0.1.2

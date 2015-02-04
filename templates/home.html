@@ -1,0 +1,33 @@
+{{foo}}
+
+<h1>Oh hi, {{username}}.</h1>
+<h2>(from {{ip}})</h2>
+
+{%if ec2_groups%}
+<h3>EC2 Groups</h3>
+<table border=1>
+    <thead>
+        <tr>
+            <td>id</td>
+            <td>name</td>
+            <td colspan="{{max_ec2_groups}}">ports</td>
+        </tr>
+    </thead>
+    {%for group in ec2_groups%}
+    <tr>
+        <td>{{group['id']}}</td>
+        <td>{{group['name']}}</td>
+        {%for port in group['all_ports']%}
+            <td>
+                <form method="post" action="/change">
+                    <input type="hidden" name="group_id" value="{{group['id']}}" />
+                    <input type="hidden" name="port" value="{{port}}" />
+                    <input onchange="this.form.submit();" name="grant" type="checkbox"{%if port in group.grant_ports%}checked="checked"{%endif%} />
+                    {{port}}
+                </form>
+            </td>
+        {%endfor%}
+    </tr>
+    {%endfor%}
+</table>
+{%endif%}
