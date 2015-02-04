@@ -1,6 +1,85 @@
-<h1>Who's there?</h1>
-<form action="" method="post">
-    <p>Username: <input type="text" name="username" /></p>
-    <p>Password: <input type="password" name="password" /></p>
-    <p><input type="submit" value="Log in" /></p>
-</form>
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>KnockKnock</title>
+        <style type="text/css">
+        * {
+            box-sizing: border-box;
+        }
+
+        html,
+        body {
+            background: #eaeaea;
+            color: #444;
+            font-family: Helvetica, Arial, sans-serif;
+        }
+
+        h1 {
+            margin: 0 0 40px;
+        }
+
+        label {
+            display: block;
+            font-size: 14px;
+            font-weight: bold;
+            line-height: 20px;
+            margin-bottom: 5px;
+        }
+
+        input[type=text],
+        input[type=password],
+        input[type=submit] {
+            display: block;
+            font-size: 18px;
+            line-height: 20px;
+            margin-bottom: 20px;
+            padding: 5px;
+            width: 100%;
+        }
+
+        input[type=submit] {
+            border: 1px solid #2E78C4;
+            background: #3F89D5;
+            box-shadow: none;
+            color: #fff;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: bold;
+            height: 32px;
+            margin: 0;
+            outline: none;
+            width: 33%;
+        }
+
+        input[type=submit]:hover {
+            background: #2E78C4;
+        }
+
+        .container {
+            background: #fff;
+            border-bottom: 1px solid #ccc;
+            border-top: 1px solid #ccc;
+            left: 50%;
+            margin-left: -160px;
+            padding: 40px 20px;
+            position: absolute;
+            top: 15%;
+            width: 320px;
+        }
+        </style>
+    </head>
+    <body>
+        <section class="container">
+            <h1>Who&#8217;s there?</h1>
+            <form action="" method="post">
+                <label for="username">Username</label>
+                <input id="username" type="text" name="username" />
+
+                <label for="password">Password</label>
+                <input id="password" type="password" name="password" />
+
+                <input type="submit" value="Log in" />
+            </form>
+        </section>
+    </body>
+</html>
