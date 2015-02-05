@@ -10,11 +10,11 @@ app = Flask(__name__)
 @app.route('/')
 def index():
     if 'username' not in session:
-        return redirect(url_for('login'))
+        return redirect(url_for('login', _scheme=get_scheme(request), _external=True))
 
     # is logged in
 
-    ip = request.remote_addr
+    ip = get_ip(request)
 
     # fetch groups with a knockknock tag
     ec2_groups, max_ec2_groups = get_groups(ip)
@@ -32,19 +32,19 @@ def login():
     if request.method == 'POST':
         if validate_iam_user(request.form['username'], request.form['password'], app.config['account_id']):
             session['username'] = request.form['username']
-            return redirect(url_for('index'))
+            return redirect(url_for('index', _scheme=get_scheme(request), _external=True))
     return render_template('login.html')
 
 @app.route('/logout')
 def logout():
     # remove the username from the session if it's there
     session.pop('username', None)
-    return redirect(url_for('login'))
+    return redirect(url_for('login', _scheme=get_scheme(request), _external=True))
 
 @app.route('/change', methods=['POST'])
 def change():
     group = None
-    ip = request.remote_addr
+    ip = get_ip(request)
     for g in get_groups(ip)[0]:
         if g['id'] == request.form['group_id']:
             group = g
@@ -72,7 +72,7 @@ def change():
             cidr_ip="%s/32" % ip
         ))
 
-    return redirect(url_for('index'))
+    return redirect(url_for('index', _scheme=get_scheme(request), _external=True))
 
 def ensure_secret(filename, app):
     try:
@@ -88,6 +88,25 @@ def ensure_secret(filename, app):
         open(filename, 'w').write(secret)
 
     return secret
+
+def get_ip(request):
+    # allow upstream proxy (nginx) to set X-Real-IP
+    return request.headers.get('X-Real-Ip', request.remote_addr)
+
+def get_scheme(request):
+    ssl = request.headers.get('X-Forwarded-Ssl', None)
+    if ssl is not None:
+        if ssl == 'on':
+            return 'https'
+        else:
+            return 'http'
+    else:
+        if request.is_secure:
+            return 'https'
+        else:
+            return 'http'
+
+
 
 def get_groups(ip):
     max_ec2_groups = 0
